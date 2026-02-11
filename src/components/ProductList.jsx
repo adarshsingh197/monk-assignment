@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ProductPicker } from "./ProductPicker/ProductPicker";
 
 export const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchProductList = async (
     search = "Hat",
@@ -33,9 +35,9 @@ export const ProductList = () => {
       }
 
       setHasMore(data.length === 10);
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
+    } finally {
       setLoading(false);
     }
   };
@@ -43,6 +45,7 @@ export const ProductList = () => {
   const handleAddProduct = () => {
     setPageNumber(0);
     fetchProductList("Hat", false, 0);
+    setIsModalOpen(true); // Open modal
   };
 
   const handleLoadMore = () => {
@@ -66,31 +69,15 @@ export const ProductList = () => {
         </button>
       </div>
 
-      {/* Products List */}
-      <div className="mt-6 space-y-4">
-        {products.map((product) => (
-          <div key={product.id} className="border p-4 rounded">
-            <img
-              src={product.image?.src}
-              alt={product.title}
-              className="w-20 h-20 object-cover mb-2"
-            />
-            <h3 className="font-medium">{product.title}</h3>
-          </div>
-        ))}
-      </div>
-
-      {/* Load More Button */}
-      {hasMore && products.length > 0 && (
-        <div className="mt-4 text-center">
-          <button
-            onClick={handleLoadMore}
-            className="px-6 py-2 bg-black text-white rounded"
-          >
-            {loading ? "Loading..." : "Load More"}
-          </button>
-        </div>
-      )}
+      {/* Modal */}
+      <ProductPicker
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        products={products}
+        loading={loading}
+        hasMore={hasMore}
+        onLoadMore={handleLoadMore}
+      />
     </div>
   );
 };
