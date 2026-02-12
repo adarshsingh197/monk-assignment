@@ -75,13 +75,13 @@ export const AddProductModal = () => {
       }`}
     >
       <div className="flex flex-col w-[600px] h-4/5 bg-white rounded-lg overflow-auto">
-        <div className="flex justify-between items-center p-4 border-b">
+        <div className="flex justify-between items-center p-4 border-b border-b-slate-500">
           <span>Add Products</span>
           <img src={Close} alt="close" onClick={() => setIsModalOpen(false)} />
         </div>
 
         <div className="flex items-center gap-2 p-4 px-8">
-          <div className="flex items-center border border-slate-200 flex-1 gap-4 px-4 rounded-lg">
+          <div className="flex items-center border border-slate-200 flex-1 gap-4 px-4">
             <img src={Search} alt="search" />
             <input
               className="bg-transparent border-none text-lg flex-1 outline-none focus:outline-none"
@@ -98,18 +98,25 @@ export const AddProductModal = () => {
 
         {/* Product List */}
         <div className="flex-1 overflow-auto py-2" id="scrollableDiv">
-          <InfiniteScroll
-            dataLength={products.length}
-            next={fetchMoreData}
-            hasMore={hasMore}
-            scrollThreshold={1}
-            loader={<div className='flex w-full h-full justify-center items-center py-3'>Loading...</div>}
-            endMessage={<div className='flex justify-center items-center py-3'>No more products...</div>}
-            scrollableTarget="scrollableDiv"
-          >
+        <InfiniteScroll
+                dataLength={products?.length}
+                next={fetchMoreData}
+                hasMore={hasMore}
+                scrollableTarget="scrollableDiv"
+                endMessage={
+                  <div className="flex justify-center items-center py-3">
+                    No more products...
+                  </div>
+                }
+                loader={
+                  <div className="flex w-full h-full justify-center items-center py-3">
+                    Loading Products...
+                  </div>
+                }
+              >
             {products.map((product) => (
               <div
-                className="flex flex-col border-b"
+                className="flex flex-col border-b border-b-slate-200"
                 key={product.id}
               >
                 <div className="flex items-center gap-2 px-6 py-2">
@@ -138,7 +145,7 @@ export const AddProductModal = () => {
                 {product?.variants?.length > 0 && (
                   <div className='flex flex-col items-end '>
                     {product.variants.map((variant) => (
-                      <div className='w-full border-b justify-end flex' key={variant.id}>
+                      <div className='w-full border-b border-b-slate-200 justify-end flex' key={variant.id}>
                         <div className="flex items-center gap-7 mb-2 w-[90%] mt-2 py-2">
                           <input
                             type="checkbox"
@@ -171,6 +178,7 @@ export const AddProductModal = () => {
 
           {isError && <div className='flex w-full h-full justify-center items-center'>Error loading products</div>}
         </div>
+        
 
         {/* Action Buttons */}
         <div className='flex justify-between border-t border-t-slate-200'>
