@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import DragHandle from '../icons/DragHandle.svg';
-import DragHandleActive from '../icons/DragHandleActive.svg';
-import Edit from '../icons/Edit.svg';
-import EditActive from '../icons/EditActive.svg';
-import Close from '../icons/Close.svg';
-import CloseActive from '../icons/CloseActive.svg';
-import ExpandMore from '../icons/ExpandMoreD.svg';
-import ExpandLess from '../icons/ExpandLessD.svg';
+import DragHandle from '../assets/icons/DragHandle.svg';
+import DragHandleActive from '../assets/icons/DragHandleActive.svg';
+import Edit from '../assets/icons/Edit.svg';
+import EditActive from '../assets/icons/EditActive.svg';
+import Close from '../assets/icons/Close.svg';
+import CloseActive from '../assets/icons/CloseActive.svg';
+import ExpandMore from '../assets/icons/ExpandMoreBlack.svg';
+import ExpandLess from '../assets/icons/ExpandLessBlack.svg';
 import { useModalContext } from '../utils/ModalContext';
 import { useProductContext } from '../utils/ProductContext';
 

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import DragHandle from '../icons/DragHandle.svg';
-import DragHandleActive from '../icons/DragHandleActive.svg';
-import Close from '../icons/Close.svg';
-import CloseActive from '../icons/CloseActive.svg';
-import ExpandMore from '../icons/ExpandMoreD.svg';
-import ExpandLess from '../icons/ExpandLessD.svg';
+import DragHandle from '../assets/icons/DragHandle.svg';
+import DragHandleActive from '../assets/icons/DragHandleActive.svg';
+import Close from '../assets/icons/Close.svg';
+import CloseActive from '../assets/icons/CloseActive.svg';
+import ExpandMore from '../assets/icons/ExpandMoreBlack.svg';
+import ExpandLess from '../assets/icons/ExpandLessBlack.svg';
 import { useProductContext } from '../utils/ProductContext';
 
 export const Variant = ({ parentId, id, discount='20', remove, title }) => {

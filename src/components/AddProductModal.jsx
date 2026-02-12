@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useModalContext } from '../utils/ModalContext';
-import Search from '../icons/Search.svg';
-import Close from '../icons/CloseP.svg';
-import Default from '../icons/Default.svg';
+import Search from '../assets/icons/Search.svg';
+import Close from '../assets/icons/Close.svg';
+import Default from '../assets/icons/Default.svg';
 import { useFetchProducts } from '../utils/Products';
 import { useProductContext } from '../utils/ProductContext';
 
