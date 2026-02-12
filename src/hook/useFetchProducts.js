@@ -3,6 +3,13 @@ import { useEffect, useState } from "react";
 
 const API_KEY = import.meta.env.VITE_MONK_API_KEY;
 
+/**
+ * Fetches products based on a search term and page number.
+ * Handles loading, error state, infinite scrolling (`hasMore`), and request cancellation.
+ *
+ * @param {string} searchTerm
+ * @param {number} pageNumber
+ */
 export const useFetchProducts = (searchTerm, pageNumber) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -14,33 +21,44 @@ export const useFetchProducts = (searchTerm, pageNumber) => {
   }, [searchTerm]);
 
   useEffect(() => {
-    setIsLoading(true);
-    setIsError(false);
     let cancelRequest;
 
-    axios({
-      method: "GET",
-      url: "/task/products/search",
-      params: { search: searchTerm, page: pageNumber, limit: 1 },
-      headers: {
-        ...(API_KEY ? { "x-api-key": API_KEY } : {}),
-      },
-      cancelToken: new axios.CancelToken((c) => (cancelRequest = c)),
-    })   
-      .then((response) => {
-        const data = response.data;
-        setProducts((prevProducts) => {
-          return [...prevProducts, ...data];
-        });
-        setHasMore(response.data.length > 0);
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        if (axios.isCancel(e)) return;
-        setIsError(true);
-      });
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setIsError(false);
 
-    return () => cancelRequest();
+      try {
+        const response = await axios({
+          method: "GET",
+          url: "/task/products/search",
+          params: { search: searchTerm, page: pageNumber, limit: 1 },
+          headers: {
+            ...(API_KEY ? { "x-api-key": API_KEY } : {}),
+          },
+          cancelToken: new axios.CancelToken((c) => {
+            cancelRequest = c;
+          }),
+        });
+
+        const data = response.data;
+
+        setProducts((prevProducts) => [...prevProducts, ...data]);
+        setHasMore(Array.isArray(data) && data.length > 0);
+      } catch (error) {
+        if (axios.isCancel(error)) return;
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+
+    return () => {
+      if (cancelRequest) {
+        cancelRequest();
+      }
+    };
   }, [searchTerm, pageNumber]);
 
   return { isLoading, isError, products, hasMore };
